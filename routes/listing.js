@@ -1,24 +1,29 @@
+
 get = (req, res, next) => {
-  req.models.Listing.find().then((listings) => {
+  var query;
+  if(req.query.city) {
+    query = req.models.Listing.find({city: req.query.city})
+  }
+  else
+  {
+    query = req.models.Listing.find()
+  }
+
+  query.exec().then((listings) => {
       return res.send(listings);
-    }).catch((error) => next(error))
+    }).catch((error) => {
+      next(error)
+    })
 }
 
 getById = (req, res, next) => {
   req.models.Listing.findById(req.params._id).then((listings) => {
     return res.send(listings);
+  }).catch((error) => {
+    next(error)
   })
 }
 
-getPostByCity = (req, res, next) => {
-  console.log(req.params.city);
-        req.models.Listing.find({"city":"Poststad"})
-        .then((listings) => {
-            return res.send(listings);
-        }).catch((error) => {
-            next(error)
-        })
-}
 
 post = (req, res, next) => {
   req.models.Listing.create({
@@ -78,9 +83,8 @@ deleteing = (req, res, next) => {
 
 
 module.exports = {
-  // get,
-  // getById,
-  getPostByCity,
+  get,
+  getById,
   post,
   put,
   deleteing
