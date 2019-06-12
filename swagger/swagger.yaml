@@ -19,7 +19,7 @@ paths:
         '200':
           description: Array of listings
           content:
-            application/json:    
+            application/json:
               schema:
                 $ref: "#/components/schemas/ResponseListings"
         default:
@@ -28,12 +28,140 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+    post:
+      summary: adds a new Listing
+      operationId: post
+      tags:
+      - listings
+      requestBody:
+        description: create a new post in listing
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResponseListings"
+      responses:
+        '201':
+          description: the new created post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseListings"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /listings/_id:
+      get:
+        summary: gets a post by id
+        operationId: getById
+        tags:
+        - listings
+        parameters:
+        - name: _id
+          in: path
+          description: the post by id
+          required: true
+          schema:
+            type: string
+        responses:
+          '200':
+            description: the post
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/ResponseListings"
+          default:
+            description: unexpected error
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+      put:
+        summary: updates a post
+        operationId: put
+        tags:
+        - listings
+        parameters:
+        - name: _id
+          in: path
+          description: the post
+          required: true
+          schema:
+            type: string
+        requestBody:
+          description: the post to be updated
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseListings'
+        responses:
+          '200':
+            description: the replaced post
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/ResponseListings"
+          default:
+            description: unexpected error
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+      delete:
+        summary: deletes a post
+        operationId: deleteing
+        tags:
+          - listings
+        parameters:
+        - name: _id
+          in: path
+          description: id
+          required: true
+          schema:
+            type: string
+        responses:
+          '200':
+            description: the deleted post
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/ResponseListings"
+          '204':
+            description: No change (nothing was deleted)
+          default:
+            description: unexpected error
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
 components:
   schemas:
     Listing:
       type: object
       properties:
-# Add properties for your listings here   
+        latitude:
+          type: number
+        longitude :
+          type: number
+        street:
+          type: string
+        city:
+          type: string
+        municipality:
+          type: string
+        summary:
+          type: string
+        price:
+          type: number
+        monthlyFee:
+          type: number
+        bidding:
+            type: boolean
+
     ResponseListing:
       allOf:
       - $ref: "#/components/schemas/Listing"
@@ -56,7 +184,7 @@ components:
           type: object
           properties:
             expose:
-              type: bool
+              type: boolean
             statusCode:
               type: integer
               format: uint32
