@@ -72,10 +72,18 @@ put = (req, res, next) => {
     }).catch((error) => next(error))
 }
 
-deleteing = (req, res, next) => {
-  req.models.Listing.findByIdAndDelete(req.params).then((listing)=> {
-    if (listing)
-      return res.send(listing).status(200)
+// deleteing = (req, res, next) => {
+//   req.models.Listing.findByIdAndDelete(req.params.id).then((listing)=> {
+//     if (listing)
+//       return res.send(listing).status(200)
+//     res.sendStatus(204)
+//   }).catch((error) => next(error))
+// }
+
+deleteById = (req, res, next) => {
+  req.models.Listing.findByIdAndDelete(req.params.id).then((deleted)=> {
+    if (deleted)
+      return res.send(deleted).status(200)
     res.sendStatus(204)
   }).catch((error) => next(error))
 }
@@ -87,5 +95,5 @@ module.exports = {
   getById,
   post,
   put,
-  deleteing
+  deleteById
 }

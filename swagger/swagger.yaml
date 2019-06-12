@@ -120,11 +120,11 @@ paths:
                   $ref: "#/components/schemas/Error"
       delete:
         summary: deletes a post
-        operationId: deleteing
+        operationId: deleteById
         tags:
           - listings
         parameters:
-        - name: _id
+        - name: id
           in: path
           description: id
           required: true
